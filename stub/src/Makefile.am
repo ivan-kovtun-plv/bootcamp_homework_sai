@@ -15,6 +15,7 @@ CFLAGS = @CFLAGS@ $(CFLAGS_SAI_INTERFACE_COMMON) $(DBGFLAGS)
 lib_LTLIBRARIES = libsai.la
 
 libsai_la_SOURCES = \
+                       stub_sai_lag.c \
                        stub_sai_fdb.c \
                        stub_sai_interfacequery.c \
                        stub_sai_neighbor.c \
