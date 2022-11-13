@@ -2,6 +2,24 @@
 #include "stub_sai.h"
 #include "assert.h"
 
+
+static const sai_attribute_entry_t lag_attribs[] = {
+    { SAI_LAG_ATTR_PORT_LIST, false, false, false, true,
+      "List of ports in LAG", SAI_ATTR_VAL_TYPE_OBJLIST },
+    { END_FUNCTIONALITY_ATTRIBS_ID, false, false, false, false,
+      "", SAI_ATTR_VAL_TYPE_UNDETERMINED }
+};
+
+static const sai_attribute_entry_t lag_member_attribs[] = {
+    { SAI_LAG_MEMBER_ATTR_LAG_ID, true, true, false, true,
+      "LAG ID", SAI_ATTR_VAL_TYPE_OID },
+    { SAI_LAG_MEMBER_ATTR_PORT_ID, true, true, false, true,
+      "PORT ID", SAI_ATTR_VAL_TYPE_OID },
+    { END_FUNCTIONALITY_ATTRIBS_ID, false, false, false, false,
+      "", SAI_ATTR_VAL_TYPE_UNDETERMINED }
+};
+
+
 sai_status_t stub_create_lag(
     _Out_ sai_object_id_t* lag_id,
     _In_ uint32_t attr_count,
@@ -14,7 +32,9 @@ sai_status_t stub_create_lag(
         printf("Cannot create a LAG OID\n");
         return status;
     }
-    printf("CREATE LAG: 0x%lX\n", *lag_id);
+    char list_str[MAX_LIST_VALUE_STR_LEN];
+    sai_attr_list_to_str(attr_count, attr_list, lag_attribs, MAX_LIST_VALUE_STR_LEN, list_str);
+    printf("CREATE LAG: 0x%lX (%s)\n", *lag_id, list_str);
     return SAI_STATUS_SUCCESS; 
 }
 
@@ -56,7 +76,9 @@ sai_status_t stub_create_lag_member(
         printf("Cannot create a LAG member OID\n");
         return status;
     }
-    printf("CREATE LAG MEMBER: 0x%lX\n", *lag_member_id);
+    char list_str[MAX_LIST_VALUE_STR_LEN];
+    sai_attr_list_to_str(attr_count, attr_list, lag_member_attribs, MAX_LIST_VALUE_STR_LEN, list_str);
+    printf("CREATE LAG MEMBER: 0x%lX (%s)\n", *lag_member_id, list_str);
     return SAI_STATUS_SUCCESS;
 }
 
