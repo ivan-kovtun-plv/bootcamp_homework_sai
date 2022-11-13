@@ -79,11 +79,11 @@ int main()
         return 1;
     }
     for (int i = 0; i <= 3; i++) {
-        sai_attribute_t attrs[LAG_MEMBER_ATTR_COUNT] = {
-            [0] = {.id = SAI_LAG_MEMBER_ATTR_LAG_ID, .value = (i <= 1) ? lag_oid[0] : lag_oid[1]},
-            [1] = {.id = SAI_LAG_MEMBER_ATTR_PORT_ID, .value = port_list[i]}
+        sai_attribute_t lag_member_attrs[LAG_MEMBER_ATTR_COUNT] = {
+            [0] = {.id = SAI_LAG_MEMBER_ATTR_LAG_ID, .value.oid = (i <= 1) ? lag_oid[0] : lag_oid[1]},
+            [1] = {.id = SAI_LAG_MEMBER_ATTR_PORT_ID, .value.oid = port_list[i]}
         };
-        status = lag_api->create_lag_member(lag_member_oid + i, LAG_MEMBER_ATTR_COUNT, attrs);
+        status = lag_api->create_lag_member(lag_member_oid + i, LAG_MEMBER_ATTR_COUNT, lag_member_attrs);
     }
 
     sai_attribute_t attr_to_get_from_lag0 = {.id = SAI_LAG_ATTR_PORT_LIST};
